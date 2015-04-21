@@ -4,6 +4,10 @@
 	height: 85%;
 }
 
+.lsidebar button{
+	width: 140px;
+}
+
 .rsidebar{
 	margin-top: 20px;
 	border-left: 1px solid #989898;
@@ -16,4 +20,6 @@
     color: black;
     text-align: center;
 }
+
+
 
