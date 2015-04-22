@@ -21,10 +21,17 @@ $(function() {
 	});
 
 	function bar() {
-		$("#canvas1").load("trial_copy.html");
+		$("#chart").load("trial_copy.html");
 		$(this).dialog("close");
 	}
-	
+
+	$("#bg").on("click", function(){
+		$("#canvas1").css("background-color", "red");
+	});
+		
+	$("#chart").draggable();
+
+	$("#image").draggable();
 
 	/*var form = $(this).find("for").on("submit", function(event){
 		event.preventDefault();
