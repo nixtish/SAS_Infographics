@@ -7,7 +7,12 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.ServletContext;
 
 import model.DataSetForm;
 
@@ -15,6 +20,8 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,26 +36,35 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 public class ToolController {
 	
+	String pathName;
+	@Autowired
+	ServletContext servletContext;
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String homePage(){
 		
 		return "index";
 	}
 
-	@RequestMapping(value = "/parseFile", method = RequestMethod.POST)
-	public String parseDataSet(ModelMap modelMap, @RequestParam("file") MultipartFile file){
-		String name = "sample.xlsx";
+	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+	public String parseHeadings(ModelMap modelMap, @RequestParam("file") MultipartFile file){
+		
+		String name;
 		DataSetForm heading =  new DataSetForm();
 		if(!file.isEmpty()){
+			name = file.getOriginalFilename();
 			try{
 				byte[] fileContent = file.getBytes();
-				String rootPath = System.getProperty("catalina.home");
-                File dir = new File(rootPath + File.separator + "tmpFiles");
+				String rootPath = servletContext.getRealPath("/");
+                /*File dir = new File("C:" + File.separator + "tmpFiles");
                 if (!dir.exists())
                     dir.mkdirs();
  
-                // Create the file on server
-                File uploadedFile = new File(dir.getAbsolutePath() + File.separator + name);
+                // Create the file on server*/
+                pathName = rootPath + File.separator +"resources"+ File.separator + name;
+                File uploadedFile = new File(pathName);
+                File pp = new File("classpath:");
+                System.out.println("Path:"+pathName+"resourcel:"+pp.getAbsolutePath());
 				BufferedOutputStream outStream = new BufferedOutputStream(new FileOutputStream(uploadedFile));
 				outStream.write(fileContent);
 				outStream.close();
@@ -58,7 +74,6 @@ public class ToolController {
 	 
 	            //Get first/desired sheet from the workbook
 	            XSSFSheet sheet = workbook.getSheetAt(0);
-	 
 	            //Iterate through each rows one by one
 	            Iterator<Row> rowIterator = sheet.iterator();
 	            if (rowIterator.hasNext())
@@ -73,13 +88,80 @@ public class ToolController {
 	                }
 	            }
 	            inputStream.close();
-	            modelMap.addAttribute("headings", heading.getColumns().toString());
+	            modelMap.addAttribute("columns", heading.getColumns());
 			} catch(Exception e){
 				System.out.println("Exception Occured:"+e);
 			}
 		} else {
 			//redirect to error page.
 		}
+		return "dataselect";
+	}
+	
+	@RequestMapping(value = "/parseFile", method = RequestMethod.POST)
+	public String parseDataSet(@RequestParam("columnIndex1") int columnIndex1, @RequestParam("columnIndex2") int columnIndex2, ModelMap modelMap){
+			
+			/*int columnIndex1 = (Integer) modelMap.get("columnIndex1");
+			int columnIndex2 = (Integer) modelMap.get("columnIndex2");*/
+			String heading1;
+			String heading2;
+			List<String> column1Values = new ArrayList<String>();
+			List<Double> column2Values = new ArrayList<Double>();
+			try{
+				String rootPath = servletContext.getRealPath("/");
+				FileWriter fwriter = new FileWriter(rootPath+File.separator +"resources"+File.separator+"data.tsv");
+				FileInputStream inputStream = new FileInputStream(pathName);
+				System.out.println("output:"+rootPath);
+				//Create Workbook instance holding reference to .xlsx file
+	            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+	 
+	            //Get first/desired sheet from the workbook
+	            XSSFSheet sheet = workbook.getSheetAt(0);
+	            //Iterate through each rows one by one
+	            Iterator<Row> rowIterator = sheet.iterator();
+	            while(rowIterator.hasNext())
+	            {
+	                Row row = rowIterator.next();
+	                if(row.getRowNum() == 0){
+	                	Iterator<Cell> cellIterator = row.cellIterator();  
+		                while (cellIterator.hasNext())
+		                {
+		                    Cell cell = cellIterator.next();
+		                    if(cell.getColumnIndex() == columnIndex1){
+		                    	fwriter.write(cell.getStringCellValue()+"\t");
+		                    	//heading1 = cell.getStringCellValue();
+		                    } else if(cell.getColumnIndex() == columnIndex2){
+		                    	fwriter.append(cell.getStringCellValue()+"\n");
+		                    	//heading2 = cell.getStringCellValue();
+		                    }
+		                }
+	                }
+	                else if(row.getRowNum() > 0){
+	                	Iterator<Cell> cellIterator = row.cellIterator();  
+		                while (cellIterator.hasNext())
+		                {
+		                    Cell cell = cellIterator.next();
+		                    if(cell.getColumnIndex() == columnIndex1){
+		                    	fwriter.append(cell.getStringCellValue()+"\t");
+		                    	//column1Values.add(cell.getStringCellValue());
+		                    } 
+		                    else if(cell.getColumnIndex() == columnIndex2){
+		                    	fwriter.append(new Double(cell.getNumericCellValue()).intValue()+"\n");
+		                    	//column2Values.add(cell.getNumericCellValue());
+		                    }
+		                }
+	                }
+	                //For each row, iterate through all the columns
+	                
+	            }
+	            inputStream.close();
+	            fwriter.close();
+	            workbook.close();
+	            //modelMap.addAttribute("dataset_h1", column1Values);
+	            //modelMap.addAttribute("dataset_h2", column2Values);
+			} catch(Exception e){
+				System.out.println("Exception Occured:"+e);
+			}
 		return "output";
 	}
 }
