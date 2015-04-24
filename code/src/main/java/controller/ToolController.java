@@ -43,7 +43,7 @@ public class ToolController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String homePage(){
 		
-		return "index";
+		return "home";
 	}
 
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
@@ -61,7 +61,7 @@ public class ToolController {
                     dir.mkdirs();
  
                 // Create the file on server*/
-                pathName = rootPath + File.separator +"resources"+ File.separator + name;
+                pathName = rootPath + File.separator +"resources"+ File.separator + "temp" + File.separator + name;
                 File uploadedFile = new File(pathName);
                 File pp = new File("classpath:");
                 System.out.println("Path:"+pathName+"resourcel:"+pp.getAbsolutePath());
@@ -101,15 +101,11 @@ public class ToolController {
 	@RequestMapping(value = "/parseFile", method = RequestMethod.POST)
 	public String parseDataSet(@RequestParam("columnIndex1") int columnIndex1, @RequestParam("columnIndex2") int columnIndex2, ModelMap modelMap){
 			
-			/*int columnIndex1 = (Integer) modelMap.get("columnIndex1");
-			int columnIndex2 = (Integer) modelMap.get("columnIndex2");*/
-			String heading1;
-			String heading2;
-			List<String> column1Values = new ArrayList<String>();
-			List<Double> column2Values = new ArrayList<Double>();
+			String heading1="";
+			String heading2="";
 			try{
 				String rootPath = servletContext.getRealPath("/");
-				FileWriter fwriter = new FileWriter(rootPath+File.separator +"resources"+File.separator+"data.tsv");
+				FileWriter fwriter = new FileWriter(rootPath+File.separator +"resources"+ File.separator + "temp" + File.separator +"data.tsv");
 				FileInputStream inputStream = new FileInputStream(pathName);
 				System.out.println("output:"+rootPath);
 				//Create Workbook instance holding reference to .xlsx file
@@ -129,10 +125,10 @@ public class ToolController {
 		                    Cell cell = cellIterator.next();
 		                    if(cell.getColumnIndex() == columnIndex1){
 		                    	fwriter.write(cell.getStringCellValue()+"\t");
-		                    	//heading1 = cell.getStringCellValue();
+		                    	heading1 = cell.getStringCellValue();
 		                    } else if(cell.getColumnIndex() == columnIndex2){
 		                    	fwriter.append(cell.getStringCellValue()+"\n");
-		                    	//heading2 = cell.getStringCellValue();
+		                    	heading2 = cell.getStringCellValue();
 		                    }
 		                }
 	                }
@@ -157,11 +153,11 @@ public class ToolController {
 	            inputStream.close();
 	            fwriter.close();
 	            workbook.close();
-	            //modelMap.addAttribute("dataset_h1", column1Values);
-	            //modelMap.addAttribute("dataset_h2", column2Values);
+	            modelMap.addAttribute("heading1", heading1);
+	            modelMap.addAttribute("heading2", heading2);
 			} catch(Exception e){
 				System.out.println("Exception Occured:"+e);
 			}
-		return "output";
+		return "barchart";
 	}
 }
