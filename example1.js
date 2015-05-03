@@ -82,21 +82,37 @@ $(function() {
 	var counter = 1;
 
 	$("#text").click(function(){
-		var div1 = $(document.createElement('div')).attr("id", 'textbox' + counter);
-		$("#textbox1").append([div1, '<input type="text"/>']);
+		var newDiv = $(document.createElement('div')).attr("id", 'textbox' + counter);
+		newDiv.after().html('<input type="text" name="text' + counter + 
+	      '" id="text' + counter + '"/>');
+		newDiv.appendTo("#canvas1");
+		counter++;
+
+		$("#textbox"+counter).draggable();
+		$("#textbox2").draggable();
+		$("#textbox3").draggable();
+		$("#textbox4").draggable();
+		$("#textbox5").draggable();
+		$("#textbox6").draggable();
+		$("#textbox7").draggable();
+		$("#textbox8").draggable();
 	});
 	
-	$("#textbox1").draggable();
+	$("#textbutton").click(function() {
+		if(counter>0)
+		{
+			$("#textbox"+counter).remove();
+			counter--;
+		}
+		$("#textprop").css("visibility", "hidden");
+	});
 
-	$("#textbox1").click(function() {
+
+	$("#textbox").click(function() {
 		$("#textprop").css("visibility", "visible");
 	});
 
-	$("#textbutton").click(function() {
-		//$("#textbox1").remove();
-		$("#textbox1").html("");
-		$("#textprop").css("visibility", "hidden");
-	});
+	
 
 	//Tooltip wizard
 
