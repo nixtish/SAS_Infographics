@@ -1,3 +1,7 @@
+#pageheader{
+	height: 15px;
+}
+
 .lsidebar{
 	margin-top: 20px;
 	border-right: 1px solid #989898;
@@ -19,6 +23,23 @@
     margin-bottom: 20px;
     color: black;
     text-align: center;
+}
+
+#canvas1{
+	background-color: lightgrey;
+	height: 85%;
+}
+
+#canvasprop{
+	visibility: hidden;
+}
+
+#imageprop{
+	visibility: hidden;
+}
+
+#textprop{
+	visibility: hidden;
 }
 
 

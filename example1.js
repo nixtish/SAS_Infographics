@@ -5,7 +5,6 @@ $(function() {
 	modal: true,
 	buttons:{
 		Ok: bar,
-		//Ok: function() {$(this).dialog("close");},
 		Close: function() {
 			$(this).dialog("close");
 		}
@@ -24,14 +23,37 @@ $(function() {
 		$("#chart").load("trial_copy.html");
 		$(this).dialog("close");
 	}
+
+	$( "#Dialog2" ).dialog({
+	autoOpen: false,
+	modal: true,
+	buttons:{
+		Upload: upload,
+		Close: function() {
+			$(this).dialog("close");
+		}
+	},
+	}); 
+
+	$("#imgselect").button().on("click", function(){
+		$("#Dialog2").dialog("open");
+	});
+
+	function upload() {
+		//if($(pic).is(":checked"))
+		$("#drag").append($("input[name=img]:checked").val());
+		$(this).dialog("close");
+	}
+
+//	("#img1").click(function() {
+//		("#drag").append('<img src="Images/images.png" style="height: 100px; width: 100px;>');
+//	});
 		
 	$("#chart").draggable();
-
 	$("#drag").draggable();
 
-	//$("#image").resizable();
-
 	//Background properties
+
 	$("#canvas1").click(function() {
 		$("#canvasprop").css("visibility", "visible");
 		//$("#imageprop").toggle();
@@ -57,9 +79,11 @@ $(function() {
 
 	//Textbox
 
+	var counter = 1;
 
 	$("#text").click(function(){
-		$("#textbox1").append('<input type="text"/>');
+		var div1 = $(document.createElement('div')).attr("id", 'textbox' + counter);
+		$("#textbox1").append([div1, '<input type="text"/>']);
 	});
 	
 	$("#textbox1").draggable();
@@ -69,9 +93,18 @@ $(function() {
 	});
 
 	$("#textbutton").click(function() {
-		$("#textbox1").remove();
+		//$("#textbox1").remove();
+		$("#textbox1").html("");
+		$("#textprop").css("visibility", "hidden");
 	});
-	/*var form = $(this).find("for").on("submit", function(event){
+
+	//Tooltip wizard
+
+
+	
+});
+
+/*var form = $(this).find("for").on("submit", function(event){
 		event.preventDefault();
 		addData();
 	});
@@ -84,4 +117,3 @@ $(function() {
 	$("#OW").button().on("click", function(){
 			$("p").html("Changed data");
 		});*/
-});
