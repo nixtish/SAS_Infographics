@@ -34,7 +34,8 @@
 
   <div class="container-fluid">
 
-  <!--Left nav bar-->
+<!--Left nav bar-->
+
 		<div class = "row">
 			<div class="col-md-2 lsidebar"> 
   			<ul class="nav nav-sidebar">
@@ -58,7 +59,7 @@
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Add Tooltip<span class="caret"></span></button>
               <ul class="dropdown-menu" role="menu">
                 <li role="presentation"><a href="#">Quick Add Tooltip</a></li>
-                <li role="presentation"><a href="#" id="wizard">Tooltip Wizard</a></li>
+                <li role="presentation" id="wizard"><a href="#">Tooltip Wizard</a></li>
               </ul>
           </div>
 
@@ -75,14 +76,14 @@
 			  </ul>
 			</div>
 
-  <!--Canvas -->
+<!--Canvas -->
 
 			<div class = "col-md-8">
        <br>
           <div id="canvas1">
           
             <div id="drag">
-              <!--<img src="fire-truck4.png" id="image" style="height:400px; width:650 px;">-->
+              <img src="fire-truck4.png" id="image" style="height:400px; width:650 px;">
             </div>
 
            <div id="chart"></div>
@@ -92,9 +93,10 @@
         
       </div>
 
-  <!--Right nav bar -->
+<!--Right nav bar -->
 
 			<div class="col-md-2 rsidebar"> 
+        <div id="tools">
         <h5><p> Tools </p></h5>
         <br>
 		    <button id="bg" type="button" class="btn btn-default"><span class="glyphicon glyphicon-cog"></span></button>&nbsp;
@@ -104,27 +106,34 @@
         <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-link"></span></button>
         <br><br><br>
         <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span></button>
+      </div>
         <hr/>
+
         <div id="canvasprop">
           <h5><p> Background Colour </p></h5>
           <br>
           <button id="white" class="btn btn-default" style="background-color:white;"></button>&nbsp;
-          <button id="blue" class="btn btn-default" style="background-color:blue;"></button>&nbsp;
-          <button id="green" class="btn btn-default" style="background-color:green;"></button>
+          <button id="blue" class="btn btn-default" style="background-color:#CCE6FF;"></button>&nbsp;
+          <button id="green" class="btn btn-default" style="background-color:#70DB70;"></button>
           <button id="grey" class="btn btn-default" style="background-color:lightgrey;"></button>
+          <button id="red" class="btn btn-default" style="background-color:#E60000;"></button>
         </div>
+
         <div id="imageprop">
           <h5><p> Image Properties </p></h5>
         </div>
+
         <div id="textprop">
           <h5><p> Text Properties </p></h5>
             <button id="textbutton" class="btn btn-default">Remove</button>
         </div>
+
+
 			</div>
 		</div>
     <hr/>
 
- <!--Bottom nav bar-->
+<!--Bottom nav bar-->
 
     <div class="row">
       <div class="col-md-2">
@@ -145,7 +154,7 @@
       </div>
     </div>
 
-  <!--Dialog boxes -->
+<!--Dialog boxes -->
 
   <div id="Dialog1">Select Dataset
     <form>
@@ -165,12 +174,88 @@
       <input type="image" src="Images/images.jpg" style="height:50px; width:50px;">
       <input type="image" src="Images/img1.png" style="height:40px; width:100px;">
       <input type="image" src="Images/img2.jpg" style="height:50px; width:px;">-->
+      <a href="#img1"><img src="Images/images.png" style="height:60px; width:100px;"></a>
       <br><br>
       OR
       <br><br>
       <button>Load File</button>
       <br>
     </form>
+    <div>
+      <img data-hash="img1" src="Images/images.png" style="height:60px; width:100px;"/>
+    </div>
+  </div>
+
+  <div id="Dialog3">
+    <h3>Tooltip Wizard</h3>
+    <br><br>
+    <p><h4>Select Columns for tooltips</h4><p>
+      <form>
+        <select name="SelectChart">
+        <option value="selectchart" selected> Select Chart</option>
+        <option value="rowchart">Row Chart</option>
+        <option value="columnchart">Column Chart</option>
+        <option value="linechart">Line Chart</option>
+        <option value="piechart">Pie Chart</option>
+        </select>
+        <br><br>
+        <input type="checkbox" name="allcolumns" value="selectallcolumns"/>All columns
+        <br>
+        <input type="checkbox" name="column1" value="selectcolumn1"/>Column 1
+        <br>
+        <input type="checkbox" name="column2" value="selectcolumn2"/>Column 2
+        <br>
+        <input type="checkbox" name="columnrange" value="selectrange"/>Column range: 
+        <input type="text" name="columnrangetext"/> 
+        <br>
+      </form>   
+  </div>
+
+  <div id="TooltipTypeDialog" title="Build Tooltips">
+    <h3>Tooltip Wizard</h3>
+    <br><br>
+    <p><h4>Select type of tooltip</h4></p>
+      <form>
+        <input type="radio" name="tooltiptext" value="FormatText"/> Format tooltip text: 
+        <input type="text" name="tttext"/>
+        <br><br>
+        <input type="radio" name="ttchart" value="TTchart"/> Chart:
+        <select name="SelectChart">
+        <option value="selectchart" selected> Select Chart</option>
+        <option value="rowchart">Row Chart</option>
+        <option value="columnchart">Column Chart</option>
+        <option value="linechart">Line Chart</option>
+        <option value="piechart">Pie Chart</option>
+        </select>
+        <br>
+        <button id="binddata">Bind Data</button>
+        <br><br>
+        <input type="radio" name="ttimage" value="TTimage"/> Image:<br><button id="loadimage">Load Image File</button>
+        <br><br>
+        <input type="radio" name="ttquery" value="TTquery"/> Query:<button id="query">Select Variables & Query</button>
+      </form>
+  </div>
+
+  <div id="TooltipProperties" title="Build Tooltips">
+    <h3>Tooltip Wizard</h3>
+    <br><br>
+    <p><h4>Tooltip properties</h4></p>
+    <br>
+      <form>
+        <p>Select tip direction</p>
+        <input type="radio" name="ttdirection1" value="TTdirection1"/><img src="Images/tooltip1.png" width="40px" height="30px"/>
+        <input type="radio" name="ttdirection2" value="TTdirection2"/><img src="Images/tooltip3.png" width="40px" height="30px"/>
+        <input type="radio" name="ttdirection3" value="TTdirection3"/><img src="Images/tooltip2.png" width="40px" height="30px"/>
+        <input type="radio" name="ttdirection4" value="TTdirection4"/><img src="Images/tooltip4.png" width="40px" height="30px"/>
+        <br><br>
+        <p>Select rotation</p>
+        <input type="radio" name="rotateleft" value="TTrotateleft"/>Rotate left 90 deg
+        <input type="radio" name="rotateright" value="TTrotateright"/>Rotate right 90 deg
+        <br><br>
+        <p>Visibility</p>
+        <input type="radio" name="visibilityshow" value="TTvisibilityshow"/> Always show
+        <input type="radio" name="visibilityhover" value="TTvisibilityhover"/> Show on hover
+      </form>
   </div>
 
 </body>
