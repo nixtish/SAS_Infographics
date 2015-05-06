@@ -83,28 +83,19 @@ $(function() {
 
 	$("#pic1").on("click", function(){
 		$("#canvas1").css("background-color", "inherit");
-		$("#canvas1").css("background-image", "url('Images/pic2.png')");
+		$("#canvas1").css({"background-image":"url('Images/pic2.png')", "background-size":"722px 560px"});
 	});
 
 	$("#pic2").on("click", function(){
 		$("#canvas1").css("background-color", "inherit");
-		$("#canvas1").css("background-image", "url('Images/pic3.png')");
+		$("#canvas1").css({"background-image":"url('Images/pic3.png')", "background-size":"722px 560px"});
 	});
 
 	$("#pic3").on("click", function(){
 		$("#canvas1").css("background-color", "inherit");
-		$("#canvas1").css("background-image", "url('Images/pic4.png')");
+		$("#canvas1").css({"background-image":"url('Images/pic4.png')", "background-size":"722px 560px"});
 	});
-
-//Image properties
-
-	/*$("#image").click(function() {
-		//$("#canvasprop").toggle();
-		//$("#canvasprop").css("visibility", "");
-		$("#imageprop").css("visibility", "visible");
-	});
-	*/
-
+	
 //Textbox 
 
 	var counter = 1;
@@ -116,7 +107,7 @@ $(function() {
 		newDiv.appendTo("#canvas1");
 
 		$("#textbox"+counter).draggable();
-		//$("#text"+counter).css("border-color", "transparent");
+		$("#text"+counter).css({"font-size":"10","font-weight":"bold", "background-color":"grey"});
 		counter++;
 		rem++;
 		$("#textprop").css("visibility", "visible");
