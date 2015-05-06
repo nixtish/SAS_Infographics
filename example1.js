@@ -48,6 +48,29 @@ $(function() {
 		$("#drag").append($("input[name=img]:checked").src());
 	}
 
+//Use Case 15
+	
+	$( "#Dialog15" ).dialog({
+	autoOpen: false,
+	modal: true,
+	buttons:{
+		//Ok: ,
+		Close: function() {
+			$(this).dialog("close");
+		}
+	},
+	}); 
+
+	$("#chart").on("click", function(){
+		$("#desc").css("display", "none");
+		$("#chartprop").css("visibility", "visible");
+	});
+
+	$("#chartbutton").button().on("click", function(){
+		$("#Dialog15").dialog("open");
+		$("#chartprop").css("visibility", "hidden");
+	});
+
 //Draggable components
 		
 	$("#chart").draggable();
@@ -56,7 +79,7 @@ $(function() {
 //Background properties
 
 	$("#canvas1").click(function() {
-		$("#desc").css("visibility", "hidden");
+		$("#desc").css("display", "none");
 		$("#canvasprop").css("visibility", "visible");
 	});
 
@@ -107,11 +130,11 @@ $(function() {
 		newDiv.appendTo("#canvas1");
 
 		$("#textbox"+counter).draggable();
-		$("#text"+counter).css({"font-size":"10","font-weight":"bold", "background-color":"grey"});
+		$("#text"+counter).css({"font-size":"10","font-weight":"bold"});
 		counter++;
 		rem++;
 		$("#textprop").css("visibility", "visible");
-		$("#desc").css("visibility", "hidden");
+		$("#desc").css("display", "none");
 	});
 	
 	$("#textbox"+counter).keyup(function(){
@@ -199,21 +222,3 @@ $(function() {
 	}); 
 	
 });
-
-/*var form = $(this).find("for").on("submit", function(event){
-		event.preventDefault();
-		addData();
-	});
-			
-	function addData() {
-		$("#main p").append($("input[name=data]:checked").val());
-		$(this).dialog("close");
-	}
-
-	$("#OW").button().on("click", function(){
-			$("p").html("Changed data");
-		});*/
-
-//	("#img1").click(function() {
-//		("#drag").append('<img src="Images/images.png" style="height: 100px; width: 100px;>');
-//	});

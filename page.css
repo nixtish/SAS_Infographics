@@ -31,7 +31,6 @@
 
 #canvas1{
 	background-color: lightgrey;
-	/*background-image: url("Images/img2.jpg");*/
 	height: 85%;
 }
 
@@ -44,6 +43,10 @@
 }
 
 #textprop{
+	visibility: hidden;
+}
+
+#chartprop{
 	visibility: hidden;
 }
 
