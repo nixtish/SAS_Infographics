@@ -56,25 +56,44 @@ $(function() {
 //Background properties
 
 	$("#canvas1").click(function() {
-		//$("#imageprop").css("visibility", "hidden");
+		$("#desc").css("visibility", "hidden");
 		$("#canvasprop").css("visibility", "visible");
-		//$("#imageprop").toggle();
 	});
 
 	$("#white").on("click", function(){
+		$("#canvas1").css("background-image", "none");
 		$("#canvas1").css("background-color", "white");
 	});
 	$("#blue").on("click", function(){
+		$("#canvas1").css("background-image", "none");
 		$("#canvas1").css("background-color", "#CCE6FF");
 	});
 	$("#green").on("click", function(){
+		$("#canvas1").css("background-image", "none");
 		$("#canvas1").css("background-color", "#70DB70");
 	});
 	$("#grey").on("click", function(){
+		$("#canvas1").css("background-image", "none");
 		$("#canvas1").css("background-color", "lightgrey");
 	});
 	$("#red").on("click", function(){
+		$("#canvas1").css("background-image", "none");
 		$("#canvas1").css("background-color", "#E60000");
+	});
+
+	$("#pic1").on("click", function(){
+		$("#canvas1").css("background-color", "inherit");
+		$("#canvas1").css("background-image", "url('Images/pic2.png')");
+	});
+
+	$("#pic2").on("click", function(){
+		$("#canvas1").css("background-color", "inherit");
+		$("#canvas1").css("background-image", "url('Images/pic3.png')");
+	});
+
+	$("#pic3").on("click", function(){
+		$("#canvas1").css("background-color", "inherit");
+		$("#canvas1").css("background-image", "url('Images/pic4.png')");
 	});
 
 //Image properties
@@ -97,12 +116,22 @@ $(function() {
 		newDiv.appendTo("#canvas1");
 
 		$("#textbox"+counter).draggable();
+		//$("#text"+counter).css("border-color", "transparent");
 		counter++;
 		rem++;
 		$("#textprop").css("visibility", "visible");
+		$("#desc").css("visibility", "hidden");
 	});
 	
+	$("#textbox"+counter).keyup(function(){
+		//if ($(this).val>0)
+		//{
+			$(this).css("border-color", "transparent");
+		//}
+	});
+
 	$("#textbutton").click(function() {
+		//$("#text"+counter).css("border-color", "transparent");
 		if(counter>0)
 		{
 			counter--;
@@ -111,11 +140,9 @@ $(function() {
 			rem--;
 		}
 		if(rem<1)
-		{
+		{	
 			$("#textprop").css("visibility", "hidden");
 		}
-		
-
 	});
 
 	/*$("#textbox"+counter).on("click", "#text"+counter, function() {
@@ -124,6 +151,7 @@ $(function() {
 
 	$("#textbox1").click(function(){
 		$("#textprop").css("visibility", "visible");
+		$("#desc").css("visibility", "hidden");
 	});
 
 //Tooltips Dialog Boxes

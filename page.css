@@ -25,8 +25,13 @@
     text-align: center;
 }
 
+#desc{
+	visibility: visible;
+}
+
 #canvas1{
 	background-color: lightgrey;
+	/*background-image: url("Images/img2.jpg");*/
 	height: 85%;
 }
 
