@@ -23,3 +23,5 @@ Folder: Docs, Reports and Screencast
 |    | Initial_Infographics_Survey - Formative Evaluation Survey
 |    |
 
+High Fidelity Prototype Screencast Link: http://youtu.be/RIBXtNCBfgg
+Low Fidelity Prototype Screencast Link: http://youtu.be/7nOr94JZFu4
