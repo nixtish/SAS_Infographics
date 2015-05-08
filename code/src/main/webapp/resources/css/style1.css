@@ -15,6 +15,7 @@ body {
 			padding: 12px;
 			background: rgba(0, 0, 0, 0.8);
 			color: #fff;
+			z-index: 2;
 			border-radius: 2px;
 		}		
 		/* Creates a small triangle extender for the tooltip */

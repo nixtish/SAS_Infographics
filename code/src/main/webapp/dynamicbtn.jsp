@@ -2,13 +2,10 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Select Data</title>
 </head>
 <body>
-<div id="content">
-<form id="selectData" method="POST" action="parseFile">
-<input type="hidden" name="chartid">
+<input type="hidden" name="chartid" value="barchart2">
+filter name:<input type="text" id="btnname" name="btnname"><br>
 <p>Available Columns<p>
 <c:forEach var="heading" items="${columns}" varStatus="count">
 	<input type="radio" name="columnIndex1" value="${count.index}">${heading}<br>
@@ -17,7 +14,5 @@
 <c:forEach var="heading" items="${columns}" varStatus="count">
 	<input type="radio" name="columnIndex2" value="${count.index}">${heading}<br>
 </c:forEach>
-</form>
-</div>
 </body>
 </html>

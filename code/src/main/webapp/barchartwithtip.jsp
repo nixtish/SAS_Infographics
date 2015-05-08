@@ -5,7 +5,6 @@
 <head>
 </head>
 <body>
-
 <script>
 var margin = {top: 80, right: 180, bottom: 80, left: 160},
     width = 600 - margin.left - margin.right,
@@ -31,7 +30,15 @@ var svg = d3.select("#${chartid}").append("svg")
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
- 
+
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+  return "${tooltipmessage}";
+  })
+
+svg.call(tip); 
 
 d3.tsv("<c:url value='/resources/temp/data.tsv' />", type, function(error, data) {
   x.domain(data.map(function(d) { return d.${heading1}; }));
@@ -61,6 +68,8 @@ svg.append("g")
       .attr("width", x.rangeBand())
       .attr("y", function(d) { return y(d.${heading2}); })
       .attr("height", function(d) { return height - y(d.${heading2});})
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide)
 });
 
 function wrap(text, width) {

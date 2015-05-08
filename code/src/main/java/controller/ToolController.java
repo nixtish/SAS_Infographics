@@ -18,6 +18,7 @@ import model.DataSetForm;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -34,6 +36,7 @@ import org.springframework.web.multipart.MultipartFile;
  *
  */
 @Controller
+@SessionAttributes({"columns","heading1","heading2","imgurl","tooltipmessage"})
 public class ToolController {
 	
 	String pathName;
@@ -56,19 +59,19 @@ public class ToolController {
 			try{
 				byte[] fileContent = file.getBytes();
 				String rootPath = servletContext.getRealPath("/");
-                /*File dir = new File("C:" + File.separator + "tmpFiles");
+                File dir = new File(rootPath + File.separator +"resources"+ File.separator + "temp");
                 if (!dir.exists())
                     dir.mkdirs();
  
                 // Create the file on server*/
                 pathName = rootPath + File.separator +"resources"+ File.separator + "temp" + File.separator + name;
                 File uploadedFile = new File(pathName);
-                File pp = new File("classpath:");
-                System.out.println("Path:"+pathName+"resourcel:"+pp.getAbsolutePath());
+                System.out.println("Path:"+pathName);
 				BufferedOutputStream outStream = new BufferedOutputStream(new FileOutputStream(uploadedFile));
 				outStream.write(fileContent);
 				outStream.close();
 				FileInputStream inputStream = new FileInputStream(uploadedFile);
+				
 				//Create Workbook instance holding reference to .xlsx file
 	            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 	 
@@ -88,6 +91,7 @@ public class ToolController {
 	                }
 	            }
 	            inputStream.close();
+	            workbook.close();
 	            modelMap.addAttribute("columns", heading.getColumns());
 			} catch(Exception e){
 				System.out.println("Exception Occured:"+e);
@@ -99,7 +103,7 @@ public class ToolController {
 	}
 	
 	@RequestMapping(value = "/parseFile", method = RequestMethod.POST)
-	public String parseDataSet(@RequestParam("columnIndex1") int columnIndex1, @RequestParam("columnIndex2") int columnIndex2, ModelMap modelMap){
+	public String parseDataSet(@RequestParam("columnIndex1") int columnIndex1, @RequestParam("columnIndex2") int columnIndex2, @RequestParam("chartid") String chartId, ModelMap modelMap){
 			
 			String heading1="";
 			String heading2="";
@@ -155,9 +159,65 @@ public class ToolController {
 	            workbook.close();
 	            modelMap.addAttribute("heading1", heading1);
 	            modelMap.addAttribute("heading2", heading2);
+	            modelMap.addAttribute("chartid", chartId);
 			} catch(Exception e){
 				System.out.println("Exception Occured:"+e);
 			}
 		return "barchart";
+	}
+	
+	@RequestMapping(value = "/uploadimage", method = RequestMethod.POST)
+	public String saveImages(ModelMap modelMap, @RequestParam("image") MultipartFile file){
+		
+		String name;
+		if(!file.isEmpty()){
+			name = file.getOriginalFilename();
+			try{
+				byte[] fileContent = file.getBytes();
+				String rootPath = servletContext.getRealPath("/");
+                File dir = new File(rootPath + File.separator +"resources"+ File.separator + "temp");
+                if (!dir.exists())
+                    dir.mkdirs();
+ 
+                // Create the file on server*/
+                pathName = rootPath + File.separator +"resources"+ File.separator + "temp" + File.separator + name;
+                File uploadedFile = new File(pathName);
+                System.out.println("Path:"+pathName);
+				BufferedOutputStream outStream = new BufferedOutputStream(new FileOutputStream(uploadedFile));
+				outStream.write(fileContent);
+				outStream.close();
+				modelMap.addAttribute("imgurl", name);
+			} catch(Exception e){
+				System.out.println("Exception Occured:"+e);
+			}
+		} else {
+			//redirect to error page.
+		}
+		return "image";
+	}
+	
+	@RequestMapping(value = "/customtooltip", method = RequestMethod.POST)
+	public String customizeTooltip(ModelMap modelMap, @RequestParam("formatstring") String tooltip, @RequestParam("chartid") String chartId){
+		
+		System.out.println("heading1:"+modelMap.get("heading1")+" heading2:"+modelMap.get("heading2"));
+		StringBuffer tooltipmesg = new StringBuffer();
+		if(tooltip.length()>0){
+			tooltip = tooltip.replace("xval", "\"+d."+modelMap.get("heading1")+"+\"");
+			tooltip = tooltip.replace("yval", "\"+d."+modelMap.get("heading2")+"+\"");
+			tooltipmesg.append(tooltip);
+			//tooltipmesg.append("\"");
+		System.out.println("tooltipmessage:"+tooltipmesg.toString());	
+		} else {
+			//redirect to error page.
+		}
+		modelMap.addAttribute("tooltipmessage", tooltipmesg);
+		modelMap.addAttribute("chartid", chartId);
+		return "barchartwithtip";
+	}
+	
+	@RequestMapping(value = "/createFilter", method = RequestMethod.GET)
+	public String customizeTooltip(){
+
+		return "dynamicbtn";
 	}
 }
