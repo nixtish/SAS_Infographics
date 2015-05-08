@@ -3,10 +3,10 @@
 Repsoitory for the SAS Infographics project for User Experience course Spring 2015 by Team 2.
 
 Team Members:
-Ankita Pise
-Jesseca Taylor
-Nitish Pandey
-Sharan Gopalan
+Ankita Pise,
+Jesseca Taylor,
+Nitish Pandey,
+Sharan Gopalan,
 Yashwanth Nallabothu
 
 -----------------------------
